@@ -1,4 +1,4 @@
-package ru.denis.sensorapi.SensorRestApi.exceptions.sensors;
+package ru.denis.sensorapi.SensorRestApi.exceptions.sensor;
 
 public class ErrorResponse {
     private String message;

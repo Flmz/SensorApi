@@ -1,7 +1,8 @@
 package ru.denis.sensorapi.SensorRestApi.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -10,7 +11,14 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "sensor")
+@Getter
+@Setter
+@NoArgsConstructor
 public class Sensor {
+
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Id
     @Column(name = "name")
@@ -18,32 +26,11 @@ public class Sensor {
     private String name;
 
     @OneToMany(mappedBy = "sensor")
+    private List<Measurement> measurements;
 
-    @JsonManagedReference
-    List<Measurement> measurements;
-
-    public Sensor() {
-    }
-
-    public Sensor(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<Measurement> getMeasurements() {
-        return measurements;
-    }
-
-    public void setMeasurements(List<Measurement> measurements) {
-        this.measurements = measurements;
-    }
+    @ManyToOne
+    @JoinColumn(name = "usr_owner_id", referencedColumnName = "id")
+    private User owner;
 
     @Override
     public boolean equals(Object o) {

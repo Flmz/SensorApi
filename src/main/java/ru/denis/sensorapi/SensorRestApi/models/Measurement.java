@@ -1,21 +1,25 @@
 package ru.denis.sensorapi.SensorRestApi.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 @Entity
-@Table(name = "measurements")
+@Table(name = "measurement")
+@Getter
+@Setter
+@NoArgsConstructor
 public class Measurement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private long id;
+    @Column(name = "measurement_id")
+    private Long id;
 
     @Column(name = "value")
     @NotNull
@@ -27,64 +31,10 @@ public class Measurement {
     @NotNull
     private boolean isRaining;
 
-    @ManyToOne
-    @JoinColumn(referencedColumnName = "name", name = "sensor_name")
-    @JsonBackReference
-    private Sensor sensor;
-
     @Column(name = "make_date")
     private LocalDateTime makeDate;
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public double getValue() {
-        return value;
-    }
-
-    public void setValue(Double value) {
-        this.value = value;
-    }
-
-    public boolean isRaining() {
-        return isRaining;
-    }
-
-    public void setRaining(boolean raining) {
-        isRaining = raining;
-    }
-
-    public Sensor getSensor() {
-        return sensor;
-    }
-
-    public void setSensor(Sensor sensor) {
-        this.sensor = sensor;
-    }
-
-    public LocalDateTime getMakeDate() {
-        return makeDate;
-    }
-
-    public void setMakeDate(LocalDateTime makeDate) {
-        this.makeDate = makeDate;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Measurement that = (Measurement) o;
-        return isRaining == that.isRaining && value.equals(that.value);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(value, isRaining);
-    }
+    @ManyToOne
+    @JoinColumn(name = "sensor_name", referencedColumnName = "name")
+    private Sensor sensor;
 }

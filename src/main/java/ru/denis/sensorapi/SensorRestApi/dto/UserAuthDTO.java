@@ -7,10 +7,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class SensorDTO {
+public class UserAuthDTO {
+    private String email;
 
-    private String name;
-
-    private UserDTO owner;
-
+    private String password;
 }

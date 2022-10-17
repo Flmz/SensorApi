@@ -3,12 +3,11 @@ package ru.denis.sensorapi.SensorRestApi.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.denis.sensorapi.SensorRestApi.exceptions.sensors.NotExistException;
+import ru.denis.sensorapi.SensorRestApi.exceptions.sensor.NotExistSensorException;
 import ru.denis.sensorapi.SensorRestApi.models.Measurement;
 import ru.denis.sensorapi.SensorRestApi.models.Sensor;
 import ru.denis.sensorapi.SensorRestApi.repositories.MeasurementRepository;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -29,7 +28,7 @@ public class MeasurementService {
     public void save(Measurement measurement) {
         Optional<Sensor> sensor = sensorService.findSensorByName(measurement.getSensor().getName());
         if (sensor.isEmpty()) {
-            throw new NotExistException("No sensor with this name");
+            throw new NotExistSensorException("No sensor with this name");
         } else {
             enrichMeasurement(measurement, sensor);
             measurementRepository.save(measurement);

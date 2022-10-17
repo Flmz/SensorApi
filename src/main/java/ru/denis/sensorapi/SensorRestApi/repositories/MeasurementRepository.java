@@ -7,7 +7,7 @@ import ru.denis.sensorapi.SensorRestApi.models.Measurement;
 import ru.denis.sensorapi.SensorRestApi.models.Sensor;
 
 @Repository
-public interface MeasurementRepository extends JpaRepository<Measurement,Long> {
+public interface MeasurementRepository extends JpaRepository<Measurement, Long> {
     @Query("select count(e) from Measurement e where e.isRaining = ?1")
     long findAllRainingDays(boolean isRain);
 
