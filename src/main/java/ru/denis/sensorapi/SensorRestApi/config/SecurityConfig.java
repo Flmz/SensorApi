@@ -28,11 +28,10 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.authenticationProvider(authenticationProvider());
-
-        httpSecurity.csrf().disable()
+        httpSecurity.csrf().disable().addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers("/admin", "/admin/**").hasRole("ADMIN")
+                .antMatchers("/auth/login", "/auth/registration").anonymous()
+                .antMatchers("/admin").hasRole("ADMIN")
                 .antMatchers("/error").permitAll()
                 .anyRequest().hasAnyRole("USER", "ADMIN")
                 .and()
@@ -48,7 +47,6 @@ public class SecurityConfig {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-        httpSecurity.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();
     }
 

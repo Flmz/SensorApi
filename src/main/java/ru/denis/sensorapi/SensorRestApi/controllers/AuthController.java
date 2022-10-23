@@ -49,7 +49,6 @@ public class AuthController {
         UsernamePasswordAuthenticationToken authInputToken =
                 new UsernamePasswordAuthenticationToken(userAuthDTO.getEmail(),
                         userAuthDTO.getPassword());
-
         try {
             authProvider.authenticate(authInputToken);
         } catch (AuthenticationException error) {

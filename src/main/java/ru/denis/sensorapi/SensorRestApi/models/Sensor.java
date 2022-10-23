@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
@@ -14,13 +15,13 @@ import java.util.Objects;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Sensor {
+public class Sensor implements Serializable {
 
-    @Column(name = "id")
+    @Id
+    @Column(name = "sensor_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Id
     @Column(name = "name")
     @Size(min = 2, max = 30, message = "Sensor name must be between 2 and 30 characters")
     private String name;
@@ -29,7 +30,7 @@ public class Sensor {
     private List<Measurement> measurements;
 
     @ManyToOne
-    @JoinColumn(name = "usr_owner_id", referencedColumnName = "id")
+    @JoinColumn(name = "owner_id", referencedColumnName = "usr_id")
     private User owner;
 
     @Override

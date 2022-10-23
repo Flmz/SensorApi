@@ -15,6 +15,7 @@ import ru.denis.sensorapi.SensorRestApi.utils.validators.SensorValidator;
 import java.util.Optional;
 
 import static ru.denis.sensorapi.SensorRestApi.utils.Utils.getPrincipal;
+import static ru.denis.sensorapi.SensorRestApi.utils.Utils.writeErrorMessage;
 
 @Service
 @Transactional(readOnly = true)
@@ -35,12 +36,14 @@ public class SensorService {
     }
 
     @Transactional
-    public SensorDTO save(SensorDTO sensorDTO, BindingResult bindingResult) {
+    public SensorDTO save(SensorDTO sensorDTO, BindingResult bindingResult) throws ExistSensorException {
+
         Sensor sensor = toEntity(sensorDTO);
+
         validator.validate(sensor, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            throw new ExistSensorException("Сенсор с таким названием уже существует");
+            writeErrorMessage(bindingResult);
         }
 
         sensor.setOwner(getPrincipal().getUser());

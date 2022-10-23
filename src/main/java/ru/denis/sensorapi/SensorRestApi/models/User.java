@@ -7,8 +7,6 @@ import ru.denis.sensorapi.SensorRestApi.models.enums.Role;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import java.util.List;
-
 
 @Entity
 @Table(name = "usr")
@@ -18,7 +16,7 @@ import java.util.List;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "usr_id")
     private Long id;
 
     @Email
@@ -32,6 +30,4 @@ public class User {
     @Column(name = "role")
     private Role role;
 
-    @OneToMany(mappedBy = "owner")
-    private List<Sensor> sensors;
 }
